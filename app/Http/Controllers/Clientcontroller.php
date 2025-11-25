@@ -40,10 +40,10 @@ class ClientController extends Controller
         $direction = $request->input('dir', 'desc');
         $query->orderBy($sort, $direction);
 
-        $perPage = (int) $request->input('per_page', 15);
+        $perPage = (int) $request->input('per_page', 6);
         $clients = $query->paginate($perPage)->appends($request->query());
 
-        if ($request->wantsJson()) {
+        if ($request->is('api/*')) {
             return ClientResource::collection($clients)->additional(['meta' => [
                 'total' => $clients->total(),
                 'per_page' => $clients->perPage(),
@@ -78,23 +78,21 @@ class ClientController extends Controller
     {
         $client->update($request->validated());
 
-        if ($request->wantsJson()) {
-            return new ClientResource($client);
-        }
-
-        return redirect()->route('clients.show', $client)->with('success', 'Client updated.');
+        // Always return JSON for API
+        return response()->json([
+            'message' => 'Client updated successfully',
+            'data' => new ClientResource($client)
+        ], 200);
     }
 
-    public function destroy(Request $request, Client $client)
+
+     public function destroy(Client $client)
     {
-        // soft delete
-        $client->delete();
+        $client->delete(); // soft delete या hard delete
 
-        if ($request->wantsJson()) {
-            return response()->json(['message' => 'Deleted'], 200);
-        }
-
-        return redirect()->route('clients.index')->with('success', 'Client deleted.');
+        return response()->json([
+            'message' => 'Client deleted successfully'
+        ], 200);
     }
 
     // Restore (if soft-deleted)

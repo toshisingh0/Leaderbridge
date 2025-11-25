@@ -22,7 +22,14 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('/clients', [ClientController::class, 'store']);
-    Route::get('/clients', [ClientController::class, 'index']);
+    Route::apiResource('clients', ClientController::class);
+
+
+    // Route::post('/clients', [ClientController::class, 'store']);
+    // Route::get('/clients', [ClientController::class, 'index']);
+    // Route::get('clients/{client}', [ClientController::class, 'show']);
+    // Route::patch('/clients/{id}', [ClientController::class, 'update']);
+    // Route::patch('clients/{client}', [ClientController::class, 'update']);
+    // Route::delete('clients/{client}', [ClientController::class, 'destroy']);
 });
 

@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('comapny')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable()->index();
-            $table->enum('source',['web','import','manual','campaign'])->default('manual');
+            $table->enum('source',['web','import','manual','campaign','linkedin-ads'])->default('manual');
             $table->text('notes')->nullable();
             $table->json('meta')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable()->index();
