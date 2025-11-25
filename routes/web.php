@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware(['auth'])->group(function(){
+    Route::resource('clients', ClientController::class);
+    Route::post('clients/{id}/restore', [ClientController::class,'restore'])->name('clients.restore');
+    Route::post('/clients/import', [ClientController::class, 'import'])->name('clients.import');
+    Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
+
 });
