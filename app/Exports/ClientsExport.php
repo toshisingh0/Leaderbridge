@@ -3,12 +3,12 @@
 namespace App\Exports;
 
 use App\Models\Client;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Files\ExportHandler;
 
-class ClientsExport implements FromCollection
+class ClientsExport extends ExportHandler
 {
-    public function collection()
+    public function handle()
     {
-        return Client::all(['id','name','company','email','phone','source','created_at']);
+        return Client::all()->toArray();
     }
 }

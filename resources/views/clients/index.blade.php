@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Clients List</title>
@@ -40,6 +39,8 @@
                 <th>Company</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Source</th>
+                <th>Notes</th>
                 <th>Owner</th>
                 <th>Actions</th>
             </tr>
@@ -52,6 +53,8 @@
                     <td>{{ $c->company }}</td>
                     <td>{{ $c->email }}</td>
                     <td>{{ $c->phone }}</td>
+                     <td>{{ $c->source }}</td>
+                    <td>{{ $c->notes }}</td>
                     <td>{{ optional($c->owner)->name }}</td>
 
                     <td class="d-flex gap-2">
@@ -74,6 +77,12 @@
     <div class="mt-3">
         {{ $clients->links() }}
     </div>
+
+    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+    @csrf
+    <button class="btn btn-danger">Logout</button>
+   </form>
+
 
 </div>
 </body>

@@ -15,6 +15,7 @@ use App\Http\Controllers\ClientController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/clients', [ClientController::class, 'apiIndex']);
 
 Route::middleware('auth:sanctum')->group(function () {
 

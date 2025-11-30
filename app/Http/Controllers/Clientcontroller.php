@@ -7,13 +7,21 @@ use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Exports\ClientsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth'); // adjust for API token routes as needed
+        $this->middleware('auth')->except(['apiIndex']);
     }
+
+    public function apiIndex()
+    {
+    return response()->json(\App\Models\Client::all());
+    }
+
 
     // List with search, sort, pagination
     public function index(Request $request)
@@ -56,6 +64,8 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         $data = $request->validated();
+            $data['owner_id'] = auth()->id();
+
         $client = Client::create($data);
 
         if ($request->wantsJson()) {
@@ -103,4 +113,26 @@ class ClientController extends Controller
 
         return redirect()->route('clients.show', $client)->with('success', 'Client restored.');
     }
+    public function create()
+    {
+        return view('clients.create');
+    }
+    public function edit(Client $client)
+    {
+        return view('clients.edit', compact('client'));
+    }
+    public function import(Request $request)
+    {
+        dd("File Received", $request->file('file'));
+    }
+
+    public function export()
+    {
+    return Excel::download(new ClientsExport, 'clients.xlsx');
+    }
+    
+
+
+
+
 }

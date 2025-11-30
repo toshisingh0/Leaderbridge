@@ -16,7 +16,7 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
-            $table->string('comapny')->nullable();
+            $table->string('company')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable()->index();
             $table->enum('source',['web','import','manual','campaign','linkedin-ads'])->default('manual');
