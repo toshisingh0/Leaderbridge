@@ -16,7 +16,6 @@ class Client extends Model
     'phone',
     'source',
     'notes',
-    'meta',
     'owner_id',
     ];
 
@@ -26,7 +25,11 @@ class Client extends Model
 
 
 
-     public function owner()
+    public function leads() {
+        return $this->hasMany(Lead::class);
+    }
+
+    public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
     }

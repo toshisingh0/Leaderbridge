@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
+use App\Http\Controllers\Controller;
 
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -86,14 +87,25 @@ class ClientController extends Controller
 
     public function update(UpdateClientRequest $request, Client $client)
     {
-        $client->update($request->validated());
+        $data = $request->validated();
 
-        // Always return JSON for API
-        return response()->json([
-            'message' => 'Client updated successfully',
-            'data' => new ClientResource($client)
-        ], 200);
+        // map text → notes (if frontend field name is text)
+        if($request->has('text')){
+            $data['notes'] = $request->input('text');
+        }
+
+        $client->update($data);
+
+        // return response()->json([
+        //     'message' => 'Client updated successfully',
+        //     'data' => $client
+        // ], 200);
+        return redirect()->route('clients.index')->with('success', 'Client updated successfully');
+
     }
+
+
+
 
 
      public function destroy(Client $client)

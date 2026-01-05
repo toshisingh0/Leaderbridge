@@ -6,6 +6,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\LeadCreated;
+use App\Listeners\SendLeadCreatedEmail;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,9 +18,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+    \App\Events\LeadCreated::class => [
+        \App\Listeners\SendLeadCreatedEmail::class,
+    ],
     ];
 
     /**

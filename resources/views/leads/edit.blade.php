@@ -27,16 +27,19 @@
             <input type="text" name="phone" class="form-control" value="{{ $lead->phone }}">
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Lead Source</label>
-            <select name="source" class="form-control">
-                <option {{ $lead->source=='Website'?'selected':'' }}>Website</option>
-                <option {{ $lead->source=='Facebook'?'selected':'' }}>Facebook</option>
-                <option {{ $lead->source=='Google Ads'?'selected':'' }}>Google Ads</option>
-                <option {{ $lead->source=='Referral'?'selected':'' }}>Referral</option>
-                <option {{ $lead->source=='Other'?'selected':'' }}>Other</option>
-            </select>
-        </div>
+    <div class="mb-3">
+    <label class="form-label">Lead Source</label>
+    <select name="source" class="form-control">
+        <option value="Website" {{ $lead->source=='Website' ? 'selected' : '' }}>Website</option>
+        <option value="Facebook" {{ $lead->source=='Facebook' ? 'selected' : '' }}>Facebook</option>
+        <option value="Google Ads" {{ $lead->source=='Google Ads' ? 'selected' : '' }}>Google Ads</option>
+        <option value="Referral" {{ $lead->source=='Referral' ? 'selected' : '' }}>Referral</option>
+        <option {{ $lead->source=='Campaign'?'selected':'' }}>Campaign</option>
+                <option {{ $lead->source=='Linkedin-ads'?'selected':'' }}>Linkedin-ads</option>
+        <option value="Other" {{ $lead->source=='Other' ? 'selected' : '' }}>Other</option>
+    </select>
+    </div>
+
 
         <div class="mb-3">
             <label class="form-label">Lead Status</label>
@@ -47,6 +50,13 @@
                 <option {{ $lead->status=='lost'?'selected':'' }}>lost</option>
             </select>
         </div>
+
+    <div class="mb-3">
+       <label class="form-label">Follow Up Date</label>
+       <input type="datetime-local" name="follow_up_date" class="form-control" 
+           value="{{ $lead->follow_up_date }}">
+    </div>
+
 
         <button class="btn btn-success">Update Lead</button>
         <a href="{{ route('leads.index') }}" class="btn btn-secondary">Back</a>

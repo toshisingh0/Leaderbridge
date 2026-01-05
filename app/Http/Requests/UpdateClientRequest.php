@@ -21,18 +21,18 @@ class UpdateClientRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+   public function rules()
     {
-       return [
+        return [
             'name'=> 'required|string|max:191',
             'company'=> 'nullable|string|max:191',
-            'email'=> 'nullable|email|max:199|unique:clients,email',
+            'email'=> 'nullable|email|max:199|unique:clients,email,' . $this->client->id,
             'phone'=> 'nullable|string|max:40',
             'source'=> 'nullable|string|max:191',
             'notes'=> 'nullable|string',
             'meta'=> 'nullable|array',
             'owner_id'=> 'nullable|exists:users,id',
-
         ];
     }
+
 }

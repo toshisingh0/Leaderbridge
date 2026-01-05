@@ -2,7 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\NoteController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\LeadController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 
 /*
@@ -15,22 +20,32 @@ use App\Http\Controllers\ClientController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/clients', [ClientController::class, 'apiIndex']);
+// Route::get('/clients', [ClientController::class, 'apiIndex']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return response()->json([
+            'message' => 'Email verified successfully'
+        ]);
+    })->middleware(['signed'])->name('verification.verify'); 
+       
 
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
     Route::apiResource('clients', ClientController::class);
+    Route::apiResource('leads', LeadController::class);
+    Route::post('/send-lead-email', [EmailController::class, 'sendLeadEmail']);
 
 
-    // Route::post('/clients', [ClientController::class, 'store']);
-    // Route::get('/clients', [ClientController::class, 'index']);
-    // Route::get('clients/{client}', [ClientController::class, 'show']);
-    // Route::patch('/clients/{id}', [ClientController::class, 'update']);
-    // Route::patch('clients/{client}', [ClientController::class, 'update']);
-    // Route::delete('clients/{client}', [ClientController::class, 'destroy']);
+    Route::get('leads/{lead}/notes', [NoteController::class, 'index']);
+    Route::post('notes', [NoteController::class, 'store']);
+    Route::put('notes/{note}', [NoteController::class, 'update']);
+    Route::delete('notes/{note}', [NoteController::class, 'destroy']);
 });
 

@@ -18,8 +18,11 @@ class CreateLeadsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
-            $table->string('source')->nullable(); // where lead came from
+            $table->enum('source',['Website','Facebook','Google Ads','campaign','linkedin-ads','Referral','other'])->default('Website');
             $table->string('status')->default('new'); 
+            $table->dateTime('follow_up_date')->nullable();
+            
+
             $table->timestamps();
         });
     }

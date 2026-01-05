@@ -33,8 +33,15 @@
                 <option value="Facebook">Facebook</option>
                 <option value="Google Ads">Google Ads</option>
                 <option value="Referral">Referral</option>
+                <option value="Campaign">Campaign</option>
+                <option value="Linkedin-ads">Linkedin-ads</option>
                 <option value="Other">Other</option>
             </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Follow Up Date</label>
+            <input type="datetime-local" name="follow_up_date" class="form-control" value="{{ old('follow_up_date') }}">
         </div>
 
         <button class="btn btn-primary">Save Lead</button>

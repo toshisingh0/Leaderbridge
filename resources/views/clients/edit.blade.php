@@ -36,9 +36,10 @@
     <div class="mb-3">
         <label class="form-label">Source</label>
             <select name="source" class="form-control">
-                <option {{ $client->source=='Web'?'selected':'' }}>Web</option>
-                <option {{ $client->source=='Import'?'selected':'' }}>Import</option>
-                <option {{ $client->source=='Manul'?'selected':'' }}>Manul</option>
+                <option {{ $client->source=='Website'?'selected':'' }}>Website</option>
+                <option {{ $client->source=='Facebook'?'selected':'' }}>Facebook</option>
+                <option {{ $client->source=='Google Ads'?'selected':'' }}>Google Ads</option>
+                <option {{ $client->source=='Referral'?'selected':'' }}>Referral</option>
                 <option {{ $client->source=='Campaign'?'selected':'' }}>Campaign</option>
                 <option {{ $client->source=='Linkedin-ads'?'selected':'' }}>Linkedin-ads</option>
                 <option {{ $client->source=='Other'?'selected':'' }}>Other</option>
@@ -47,7 +48,7 @@
 
     <div class="mb-3">
         <label class="form-label">Notes</label>
-        <textarea name="text" value="{{ $client->notes }}" class="form-control"></textarea>
+        <textarea name="notes" class="form-control">{{ old('notes', $client->notes) }}</textarea>
     </div>
 
     <button class="btn btn-primary">Update</button>

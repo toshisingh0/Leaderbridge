@@ -33,50 +33,57 @@
 
     {{-- 🧾 Clients Table --}}
     <table class="table table-bordered mt-3">
-        <thead class="table-dark">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Source</th>
+            <th>Notes</th>
+            <th>Owner</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @forelse ($clients as $c)
             <tr>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Source</th>
-                <th>Notes</th>
-                <th>Owner</th>
-                <th>Actions</th>
+                <td>{{ $c->name }}</td>
+                <td>{{ $c->company }}</td>
+                <td>{{ $c->email }}</td>
+                <td>{{ $c->phone ?? '-' }}</td>
+                <td>{{ $c->source ?? '-' }}</td>
+                <td>{{ $c->notes }}</td>
+                <td>{{ optional($c->owner)->name ?? 'N/A' }}</td>
+
+                <td class="d-flex gap-2">
+                    <a href="{{ route('clients.show', $c) }}" class="btn btn-sm btn-primary">View</a>
+                    <a href="{{ route('clients.edit', $c) }}" class="btn btn-sm btn-warning">Edit</a>
+
+                    <form action="{{ route('clients.destroy', $c) }}" method="POST"
+                          onsubmit="return confirm('Delete this client?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
+        @empty
+            <tr>
+                <td colspan="8" class="text-center">No clients found.</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
 
-        <tbody>
-            @foreach ($clients as $c)
-                <tr>
-                    <td>{{ $c->name }}</td>
-                    <td>{{ $c->company }}</td>
-                    <td>{{ $c->email }}</td>
-                    <td>{{ $c->phone }}</td>
-                     <td>{{ $c->source }}</td>
-                    <td>{{ $c->notes }}</td>
-                    <td>{{ optional($c->owner)->name }}</td>
+{{ $clients->links() }} <!-- pagination -->
 
-                    <td class="d-flex gap-2">
-                        <a href="{{ route('clients.show', $c) }}" class="btn btn-sm btn-primary">View</a>
-                        <a href="{{ route('clients.edit', $c) }}" class="btn btn-sm btn-warning">Edit</a>
 
-                        <form action="{{ route('clients.destroy', $c) }}" method="POST"
-                              onsubmit="return confirm('Delete this client?')">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {{-- Pagination --}}
+   <!--  {{-- Pagination --}}
     <div class="mt-3">
         {{ $clients->links() }}
-    </div>
+    </div> -->
 
     <form action="{{ route('logout') }}" method="POST" class="d-inline">
     @csrf
